@@ -230,9 +230,17 @@ body {
 
 /* Editor panel */
 .editor-panel {
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
+}
+
+.editor-panel > .cm-theme {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .editor-panel .cm-editor {
