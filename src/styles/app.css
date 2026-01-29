@@ -1,0 +1,319 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--app-bg);
+  color: var(--app-fg);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--app-fg) 15%, transparent);
+  flex-shrink: 0;
+}
+
+.toolbar-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+.theme-select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--app-fg) 20%, transparent);
+  background: color-mix(in srgb, var(--app-fg) 8%, var(--app-bg));
+  color: var(--app-fg);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.theme-select:hover {
+  border-color: color-mix(in srgb, var(--app-fg) 35%, transparent);
+}
+
+.theme-select:focus {
+  border-color: color-mix(in srgb, var(--app-fg) 50%, transparent);
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Export menu */
+.export-menu {
+  position: relative;
+}
+
+.export-btn {
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--app-fg) 20%, transparent);
+  background: color-mix(in srgb, var(--app-fg) 8%, var(--app-bg));
+  color: var(--app-fg);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.export-btn:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--app-fg) 35%, transparent);
+}
+
+.export-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.export-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 120px;
+  background: var(--app-bg);
+  border: 1px solid color-mix(in srgb, var(--app-fg) 20%, transparent);
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.export-option {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--app-fg);
+  font-size: 13px;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.export-option:hover {
+  background: color-mix(in srgb, var(--app-fg) 10%, transparent);
+}
+
+.export-divider {
+  height: 1px;
+  margin: 4px 6px;
+  background: color-mix(in srgb, var(--app-fg) 12%, transparent);
+}
+
+.export-custom {
+  display: flex;
+  gap: 4px;
+  padding: 4px 6px;
+}
+
+.export-custom-input {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--app-fg) 20%, transparent);
+  background: color-mix(in srgb, var(--app-fg) 6%, var(--app-bg));
+  color: var(--app-fg);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+}
+
+.export-custom-input::placeholder {
+  color: color-mix(in srgb, var(--app-fg) 40%, transparent);
+}
+
+.export-custom-input:focus {
+  border-color: color-mix(in srgb, var(--app-fg) 40%, transparent);
+}
+
+/* Hide number input spinners */
+.export-custom-input::-webkit-inner-spin-button,
+.export-custom-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.export-custom-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.export-custom-btn {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: none;
+  background: color-mix(in srgb, var(--app-fg) 12%, transparent);
+  color: var(--app-fg);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.export-custom-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--app-fg) 20%, transparent);
+}
+
+.export-custom-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Split pane */
+.split-pane {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Editor panel */
+.editor-panel {
+  overflow: hidden;
+  border-right: 1px solid color-mix(in srgb, var(--app-fg) 12%, transparent);
+}
+
+.editor-panel .cm-editor {
+  height: 100%;
+}
+
+.editor-panel .cm-scroller {
+  overflow: auto;
+}
+
+/* Preview panel */
+.preview-panel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.preview-svg {
+  max-width: 100%;
+  transition: transform 0.05s linear;
+  pointer-events: none;
+}
+
+.preview-svg svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Zoom controls */
+.zoom-controls {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: color-mix(in srgb, var(--app-bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+  border: 1px solid color-mix(in srgb, var(--app-fg) 15%, transparent);
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.zoom-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--app-fg);
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.zoom-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--app-fg) 10%, transparent);
+}
+
+.zoom-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.zoom-label {
+  min-width: 48px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--app-fg);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.zoom-label:hover {
+  background: color-mix(in srgb, var(--app-fg) 10%, transparent);
+  opacity: 1;
+}
+
+.preview-error {
+  padding: 16px;
+  width: 100%;
+}
+
+.preview-error pre {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #f87171;
+  background: color-mix(in srgb, #f87171 8%, transparent);
+  border: 1px solid color-mix(in srgb, #f87171 25%, transparent);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
